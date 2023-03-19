@@ -58,8 +58,8 @@ func answerQuestions(questions chan string, responses chan string) {
 
 func predictions(predictions chan string) {
 	for {
-		RandomSleep(10)
-		go prophecy("mosh mosh", predictions)
+		time.Sleep(time.Duration(rand.Intn(10)) * 2 * time.Second);
+		go prophecy("mosh mosh?", predictions)
 	}
 }
 
@@ -79,7 +79,7 @@ func printResponse(responses <- chan string) {
 func prophecy(question string, answer chan<- string) {
 	// Keep them waiting. Pythia, the original oracle at Delphi,
 	// only gave prophecies on the seventh day of each month.
-	RandomSleep(5)
+	RandomSleep(10)
 	
 	// Find the longest word.
 	//TODO what is the point of this? 
@@ -138,8 +138,10 @@ func prophecy(question string, answer chan<- string) {
 	}
 
 	if strings.Fields(question) == nil {
-		answer <- "You must ask a question."
-	} else if strings.Contains(question, "mosh mosh") {
+		answer <- "You must ask a question, dofus"
+	} else if !strings.Contains(question, "?") {
+		answer <- "You must ask a question, dofus."
+	} else if strings.Contains(question, "mosh mosh?") {
 		RandomSleep(10)
 		answer <- nonsense[rand.Intn(len(nonsense))]
 	} else if strings.Contains(question, "What is the answer to life, the universe and everything?") {
