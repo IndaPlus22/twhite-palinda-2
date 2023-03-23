@@ -44,9 +44,9 @@ func Oracle() chan<- string {
 	questions := make(chan string)
 	responses := make(chan string)
 	go answerQuestions(questions, responses)
-	go predictions(responses) 
+	go predictions(responses)
 	go printResponse(responses)
-	
+
 	return questions
 }
 
@@ -58,12 +58,12 @@ func answerQuestions(questions chan string, responses chan string) {
 
 func predictions(predictions chan string) {
 	for {
-		time.Sleep(time.Duration(rand.Intn(10)) * 2 * time.Second);
+		time.Sleep(time.Duration(rand.Intn(10)) * 2 * time.Second)
 		go prophecy("mosh mosh?", predictions)
 	}
 }
 
-func printResponse(responses <- chan string) {
+func printResponse(responses <-chan string) {
 	for response := range responses {
 		fmt.Println(star)
 		for _, char := range response {
@@ -80,9 +80,9 @@ func prophecy(question string, answer chan<- string) {
 	// Keep them waiting. Pythia, the original oracle at Delphi,
 	// only gave prophecies on the seventh day of each month.
 	RandomSleep(10)
-	
+
 	// Find the longest word.
-	//TODO what is the point of this? 
+	//TODO what is the point of this?
 	longestWord := ""
 	words := strings.Fields(question) // Fields extracts the words into a slice.
 	for _, w := range words {
@@ -146,7 +146,7 @@ func prophecy(question string, answer chan<- string) {
 		answer <- nonsense[rand.Intn(len(nonsense))]
 	} else if strings.Contains(question, "What is the answer to life, the universe and everything?") {
 		answer <- "This one's obvious. 42, dummy."
-	} else { 
+	} else {
 		answer <- responses[rand.Intn(len(responses))]
 	}
 }
